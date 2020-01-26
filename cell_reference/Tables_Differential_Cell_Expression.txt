@@ -1,0 +1,13 @@
+"smooth muscle cell of the brachiocephalic vasculature"	"Smooth Muscle Cells - Pulmonary Artery"	"aortic smooth muscle cell"	"smooth muscle cell of the carotid artery"	"endothelial cell of artery"	"fibroblast of the aortic adventitia"	"macrophage"	"B cell"	"CD8-positive, alpha-beta T cell"	"CD4-positive, alpha-beta T cell"	"natural killer cell"	"neutrophil"
+"smooth muscle cell of the brachiocephalic vasculature"	0	3	0	0	234	30	265	332	319	301	296	334
+"Smooth Muscle Cells - Pulmonary Artery"	3	0	0	4	174	2	217	302	279	277	277	295
+"aortic smooth muscle cell"	0	0	0	3	184	34	264	332	340	312	337	353
+"smooth muscle cell of the carotid artery"	0	4	3	0	179	20	227	284	276	270	272	293
+"endothelial cell of artery"	234	174	184	179	0	253	307	379	371	366	370	378
+"fibroblast of the aortic adventitia"	30	2	34	20	253	0	316	354	368	361	372	408
+"macrophage"	265	217	264	227	307	316	0	245	243	239	229	264
+"B cell"	332	302	332	284	379	354	245	0	140	136	146	278
+"CD8-positive, alpha-beta T cell"	319	279	340	276	371	368	243	140	0	14	28	268
+"CD4-positive, alpha-beta T cell"	301	277	312	270	366	361	239	136	14	0	60	260
+"natural killer cell"	296	277	337	272	370	372	229	146	28	60	0	247
+"neutrophil"	334	295	353	293	378	408	264	278	268	260	247	0
