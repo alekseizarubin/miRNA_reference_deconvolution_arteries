@@ -50,7 +50,7 @@ for (i in 1:length(unique(Par2$group))){
 FF2<-do.call(rbind,lapply(EXP, function(x){unlist(lapply(x, function(y){y[[6]]}))}))
 colnames(FF2)<-unique(Par2$group)
 rownames(FF2)<-unique(Par2$group)
-#DIFF_mir<-unique(unlist(lapply(EXP, function(x){unlist(lapply(x, function(y){y[[9]]}))})))
+DIFF_mir<-unique(unlist(lapply(EXP, function(x){unlist(lapply(x, function(y){y[[9]]}))})))
 write.table(FF2,file = "cell_group_reference/Tables_Differential_Cell_Expression.txt",sep = "\t",quote = T)
 
 Par2<-Par2[order(as.character(Par2$Sample)),]
@@ -80,20 +80,21 @@ FDR <- p.adjust(qlf$table$PValue, method="BH")
 sum(FDR<0.05)
 FDR2 <- p.adjust(lrt$table$PValue, method="BH")
 sum(FDR<0.05)
+
+
+tiff(filename ="plotMDS_all_FANTOM.tiff",width = 4000,height = 4000,compression = "lzw",res = 400 )
+par(mar=c(5,5,5,5))
 plotMDS(y)
-plotBCV(y)
+dev.off()
+tiff(filename ="MDplot_all_FANTOM.tiff",width = 6000,height = 3000,compression = "lzw",res = 400 )
 plotMD(lrt)
 abline(h=c(-1, 1), col="blue")
-plotMD(qlf)
-abline(h=c(-1, 1), col="blue")
+dev.off()
+tiff(filename ="heatmap_all_FANTOM.tiff",width = 6000,height = 6000,compression = "lzw",res = 400 )
 heatmap(log2(cpm(y)+1))
+dev.off()
 
-
-DIFF_mir<-row.names(lrt$table[FDR2<0.05,])
-
-
-
-
+#DIFF_mir<-row.names(lrt$table[FDR2<0.05,])
 
 
 
@@ -102,7 +103,7 @@ fantom_o<-fantom_c[DIFF_mir,colnames(fantom_c)%in%Par2$Sample]
 fantom_o<-fantom_o[,order(colnames(fantom_o))]
 Par2$name<-paste0(Par2$group,"_",1:nrow(Par2))
 colnames(fantom_o)<-Par2$name
-rownames(fantom_o)<-rownames(fantom_c)
+rownames(fantom_o)<-rownames(fantom_c)[rownames(fantom_c)%in%DIFF_mir]
 group <- factor(Par2$group)
 y <- DGEList(counts=fantom_o,group=group)
 keep <- rowSums(cpm(y)>10) >= length(group)/5
@@ -124,7 +125,14 @@ FDR <- p.adjust(qlf$table$PValue, method="BH")
 sum(FDR<0.05)
 FDR2 <- p.adjust(lrt$table$PValue, method="BH")
 sum(FDR<0.05)
+tiff(filename ="plotMDS_diffexp_FANTOM.tiff",width = 4000,height = 4000,compression = "lzw",res = 400 )
+par(mar=c(5,5,5,5))
 plotMDS(y)
+dev.off()
+tiff(filename ="MDplot_diffexp_FANTOM.tiff",width = 6000,height = 3000,compression = "lzw",res = 400 )
 plotMD(lrt)
 abline(h=c(-1, 1), col="blue")
+dev.off()
+tiff(filename ="heatmap_diffexp_FANTOM.tiff",width = 6000,height = 6000,compression = "lzw",res = 400 )
 heatmap(log2(cpm(y)+1))
+dev.off()
