@@ -9,7 +9,7 @@ colnames(fantom_o)<-Par2$name
 rownames(fantom_o)<-rownames(fantom_c)
 fantom_CAM <- CAM(as.data.frame(fantom_o), K = 2:10, thres.low = 0.10, thres.high = 0.95)
 
-png(filename ="images/MDL_reference.jpg",width = 6000,height = 3000,res = 400 )
+png(filename ="images/MDL_reference.png",width = 6000,height = 3000,res = 400 )
 plot(MDL(fantom_CAM), data.term = TRUE)
 dev.off()
 Aest <- Amat(fantom_CAM, 7)
@@ -35,5 +35,5 @@ rownames(Ref_fantom)<-rownames(cpm(Reference_all))
 
 
 DEC_fantom<-decon.bootstrap(as.data.frame(fantom_o), as.data.frame(Ref_fantom),round(nrow(Ref_fantom)*0.8), 1000)
-View(DEC_fantom[,,1])
-View(Par2)
+write.table(DEC_fantom[,,1],file = "DeconRNASeq.txt",sep = "\t",quote = T)
+
