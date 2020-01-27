@@ -6,7 +6,7 @@ for(i in 1:length(Par)){
 }       
 Par2<-do.call(rbind,Par2)
 colnames(Par2)[1]<-"Sample"
-Par2$group<-c(rep("SMC_Fib",11),rep("SMC_Fib",3),rep("EC",9),rep("Macr",3),rep("B",4),rep("T",6),rep("NK",3),rep("Neut",3))
+Par2$group<-c(rep("SMC_Fib",11),rep("SMC_Fib",3),rep("EC",9),rep("Macr",3),rep("B",4),rep("T_NK",6),rep("T_NK",3),rep("Neut",3))
 Par2<-Par2[!(Par2$Sample %in% c("SRhi10011.TAGCTT.11437","SRhi10010.GTAGAG.11284")),]
 
 EXP<-list()
@@ -50,7 +50,7 @@ for (i in 1:length(unique(Par2$group))){
 FF2<-do.call(rbind,lapply(EXP, function(x){unlist(lapply(x, function(y){y[[6]]}))}))
 colnames(FF2)<-unique(Par2$group)
 rownames(FF2)<-unique(Par2$group)
-DIFF_mir<-unique(unlist(lapply(EXP, function(x){unlist(lapply(x, function(y){y[[9]]}))})))
+#DIFF_mir<-unique(unlist(lapply(EXP, function(x){unlist(lapply(x, function(y){y[[9]]}))})))
 write.table(FF2,file = "cell_group_reference/Tables_Differential_Cell_Expression.txt",sep = "\t",quote = T)
 
 Par2<-Par2[order(as.character(Par2$Sample)),]
@@ -80,21 +80,21 @@ FDR <- p.adjust(qlf$table$PValue, method="BH")
 sum(FDR<0.05)
 FDR2 <- p.adjust(lrt$table$PValue, method="BH")
 sum(FDR<0.05)
+Reference_all<-y
 
-
-tiff(filename ="plotMDS_all_FANTOM.tiff",width = 4000,height = 4000,compression = "lzw",res = 400 )
+png(filename ="images/plotMDS_all_FANTOM.png",width = 4000,height = 4000,res = 400 )
 par(mar=c(5,5,5,5))
 plotMDS(y)
 dev.off()
-tiff(filename ="MDplot_all_FANTOM.tiff",width = 6000,height = 3000,compression = "lzw",res = 400 )
+png(filename ="images/MDplot_all_FANTOM.png",width = 6000,height = 3000,res = 400 )
 plotMD(lrt)
 abline(h=c(-1, 1), col="blue")
 dev.off()
-tiff(filename ="heatmap_all_FANTOM.tiff",width = 6000,height = 6000,compression = "lzw",res = 400 )
+png(filename ="images/heatmap_all_FANTOM.png",width = 6000,height = 6000,res = 400 )
 heatmap(log2(cpm(y)+1))
 dev.off()
 
-#DIFF_mir<-row.names(lrt$table[FDR2<0.05,])
+DIFF_mir<-row.names(lrt$table[FDR2<0.05,])
 
 
 
@@ -112,7 +112,7 @@ y <- calcNormFactors(y)
 
 design <- model.matrix(~group)
 y <- estimateDisp(y,design)
-
+Reference_DE<-y
 
 fit <- glmQLFit(y,design)
 qlf <- glmQLFTest(fit,coef=2)
@@ -125,14 +125,17 @@ FDR <- p.adjust(qlf$table$PValue, method="BH")
 sum(FDR<0.05)
 FDR2 <- p.adjust(lrt$table$PValue, method="BH")
 sum(FDR<0.05)
-tiff(filename ="plotMDS_diffexp_FANTOM.tiff",width = 4000,height = 4000,compression = "lzw",res = 400 )
+png(filename ="images/plotMDS_diffexp_FANTOM.png",width = 4000,height = 4000,res = 400 )
 par(mar=c(5,5,5,5))
 plotMDS(y)
 dev.off()
-tiff(filename ="MDplot_diffexp_FANTOM.tiff",width = 6000,height = 3000,compression = "lzw",res = 400 )
+png(filename ="images/MDplot_diffexp_FANTOM.png",width = 6000,height = 3000,res = 400 )
 plotMD(lrt)
 abline(h=c(-1, 1), col="blue")
 dev.off()
-tiff(filename ="heatmap_diffexp_FANTOM.tiff",width = 6000,height = 6000,compression = "lzw",res = 400 )
+png(filename ="images/heatmap_diffexp_FANTOM.png",width = 6000,height = 6000,res = 400 )
 heatmap(log2(cpm(y)+1))
 dev.off()
+
+
+
