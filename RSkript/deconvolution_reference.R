@@ -37,3 +37,4 @@ rownames(Ref_fantom)<-rownames(cpm(Reference_all))
 DEC_fantom<-decon.bootstrap(as.data.frame(fantom_o), as.data.frame(Ref_fantom),round(nrow(Ref_fantom)*0.8), 1000)
 write.table(DEC_fantom[,,1],file = "DeconRNASeq.txt",sep = "\t",quote = T)
 
+write.table(Ref_fantom,,sep = "\t",quote = T,file = "miRNA_reference_deconvolution_arteries.txt" )
