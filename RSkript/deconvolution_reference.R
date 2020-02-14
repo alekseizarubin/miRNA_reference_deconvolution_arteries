@@ -12,9 +12,16 @@ fantom_CAM <- CAM(as.data.frame(fantom_o), K = 2:10, thres.low = 0.10, thres.hig
 png(filename ="images/MDL_reference.png",width = 6000,height = 3000,res = 400 )
 plot(MDL(fantom_CAM), data.term = TRUE)
 dev.off()
-Aest <- Amat(fantom_CAM, 7)
+fantom_CAM_LOG <- CAM(as.data.frame(log2(fantom_o+1)), K = 2:10, thres.low = 0.10, thres.high = 0.95)
+
+png(filename ="images/MDL_reference_log.png",width = 6000,height = 3000,res = 400 )
+plot(MDL(fantom_CAM_LOG), data.term = TRUE)
+dev.off()
+
+
+Aest <- Amat(fantom_CAM, 5)
 row.names(Aest)<-colnames(as.data.frame(fantom_o))
-write.table(Aest,file = "debCAM_7component.txt",sep = "\t",quote = T)
+write.table(Aest,file = "debCAM_7component_log.txt",sep = "\t",quote = T)
 
 library(DeconRNASeq)
 
@@ -36,5 +43,8 @@ rownames(Ref_fantom)<-rownames(cpm(Reference_all))
 
 DEC_fantom<-decon.bootstrap(as.data.frame(fantom_o), as.data.frame(Ref_fantom),round(nrow(Ref_fantom)*0.8), 1000)
 write.table(DEC_fantom[,,1],file = "DeconRNASeq.txt",sep = "\t",quote = T)
-
+DEC_fantom_log<-decon.bootstrap(as.data.frame(log2(fantom_o+1)), as.data.frame(log2(Ref_fantom+1)),round(nrow(Ref_fantom)*0.8), 1000)
+write.table(DEC_fantom_log[,,1],file = "DeconRNASeq_log.txt",sep = "\t",quote = T)
 write.table(Ref_fantom,,sep = "\t",quote = T,file = "miRNA_reference_deconvolution_arteries.txt" )
+
+
