@@ -38,3 +38,4 @@ DEC_fantom<-decon.bootstrap(as.data.frame(fantom_o), as.data.frame(Ref_fantom),r
 write.table(DEC_fantom[,,1],file = "DeconRNASeq.txt",sep = "\t",quote = T)
 
 write.table(Ref_fantom,,sep = "\t",quote = T,file = "miRNA_reference_deconvolution_arteries.txt" )
+
